@@ -62,7 +62,7 @@ c     call simul with indic=1 every imode(3)th iteration
       dzs(1) = 100.
       open(io,file='output_m1qn3_driver.txt',status='unknown')
 c     first guess of x,f,g (izs=-1)
-      call mysimul(indic,n,f,x,g,-1,rzs,dzs)
+      call mysimul(indic,n,f,x,g,(/-1/),rzs,dzs)
       print *, 'ml-driver x = ', (x(i),i=1,n)
       print *, 'ml-driver f = ', f
       print *, 'ml-driver g = ', (g(i),i=1,n)
