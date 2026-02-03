@@ -72,6 +72,7 @@ c     extra dummy variables
       integer izs(1)
       _RS rzs(1)
       _RL dzs(1)
+      integer nsimdum
       integer, parameter :: io = 60
       character*(*), parameter :: fname_m1qn3 = 'm1qn3_output.txt'
 c     end of m1qn3 parameters
@@ -198,7 +199,7 @@ c--   warm restart
 c     requires restoring the state of m1qn3 with pickup file
        print *, ' OPTIM_SUB: warm start, optimcycle =', optimcycle
        imode(2) = 1
-       call optim_store_m1qn3(ndz,iz,dz,niter,nsim,epsg,df1,
+       call optim_store_m1qn3(ndz,iz,dz,niter,nsimdum,epsg,df1,
      I      optimcycle,
      I      .false.)
 c     re-open output file for m1qn3
@@ -237,12 +238,10 @@ c     reasonable bounds (prior to scaling)
       print *,' OPTIM_SUB:  std(xx) =',
      &     sum((xx(1:nn)-xxmean)**2)/dble(nn)
       print *
-c     write state of m1qn3 into pickup file for warm restart
-c     even if the iteration has terminated with a defined omode state,
-c     because we would like to be able to do a warm restart with
-c     modified parameters.
-c     if ( reverse .eq. 1 ) call optim_store_m1qn3(
-      call optim_store_m1qn3(
+c     write state of m1qn3 into pickup file for warm restart only if the
+c     iteration has not terminated with a defined omode state, because
+c     we cannot pickup with a warm restart form the final state of m1qn3.
+      if ( reverse .eq. 1 ) call optim_store_m1qn3(
      I     ndz,iz,dz,niter,nsim,epsg,df1,
      I     optimcycle,
      I     .true.)

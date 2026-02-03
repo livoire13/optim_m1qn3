@@ -26,7 +26,7 @@ c--   routine arguments
       logical store
 
 c--   local variables
-      integer io, k
+      integer io, k, niter0
       character*(14) fname
       logical fileExists
 
@@ -76,7 +76,8 @@ c
         print*
         STOP 'Abnormal end in s/r optim_store_m1qn3'
        endif
-       read(io) niter,nsim
+c     read current iteration index and (constant) maximum number of simulations
+       read(io) niter0,nsim
        read(io) iz
        read(io) (dz(k),k=1,ndz)
 c     some extra info
@@ -90,6 +91,17 @@ c     mlis3_common.h
        read(io) t_increased,indica,indicd
        read(io) tesf,tesd,fa,fpa,fn,barmin,barmul,barmax,barr,
      &      tg,fg,fpg,td,ta,d2,fp,ffn,fd,fpd,z,test,gauche,droite
+       if ( niter .gt. itmax ) then
+c
+        print *
+        print *,
+     &       ' OPTIM_STORE_M1QN3: ***WARNING*** increasing itmax from ',
+     &        itmax, ' to ', niter
+        print *
+c
+        itmax = niter
+       endif
+       niter = niter0
       endif
 
       close(io)
