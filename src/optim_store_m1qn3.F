@@ -15,6 +15,7 @@ c
 c--   global variables
 #include "m1qn3_common.h"
 #include "m1qn3a_common.h"
+c--   itmax --> DEPRECATED: kept only for restart compatibility
 #include "mlis3_common.h"
 c--   routine arguments
       integer ndz
@@ -29,6 +30,9 @@ c--   local variables
       integer io, k
       character*(14) fname
       logical fileExists
+
+c--   Assign dummy value to (deprecated) itmax
+      itmax = -9999
 
 c--   routine body
       fname = ' '

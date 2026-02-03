@@ -11,7 +11,7 @@ C
       subroutine m1qn3_offline
      &     (simul,prosca,ctonb,ctcab,n,x,f,g,dxmin,df1,
      &     epsg,normtype,impres,io,imode,omode,niter,nsim,
-     &     iz,dz,ndz,reverse,indic,izs,rzs,dzs)
+     &     iz,dz,ndz,reverse,indic,izs,rzs,dzs,nitermax)
 c
 c-----------------------------------------------------------------------
 c
@@ -100,7 +100,7 @@ c     arguments
 c
       character*3 normtype
       integer n,impres,io,imode(3),omode,niter,nsim,iz(5),ndz,indic,
-     &    reverse,izs(*)
+     &    reverse,izs(*),nitermax
       real rzs(*)
       double precision x(n),f,g(n),dxmin,df1,epsg,dz(ndz),dzs(*)
       external simul,prosca,ctonb,ctcab
@@ -376,7 +376,7 @@ c
      &             normtype,impres,io,imode,omode,niter,nsim,inmemo,
      &             iz(3),iz(4),iz(5),dz(id),dz(igg),dz(idiag),dz(iaux),
      &             dz(ialpha),dz(iybar),dz(isbar),reverse,reentry,indic,
-     &             izs,rzs,dzs)
+     &             izs,rzs,dzs,nitermax)
       if (reentry.gt.0) return
 c
 c---- impressions finales
@@ -409,7 +409,7 @@ c
       subroutine m1qn3a (simul,prosca,ctonb,ctcab,n,x,f,g,dxmin,df1,
      &                   epsg,normtype,impres,io,imode,omode,niter,nsim,
      &                   inmemo,m,jmin,jmax,d,gg,diag,aux,alpha,ybar,
-     &                   sbar,reverse,reentry,indic,izs,rzs,dzs)
+     &                   sbar,reverse,reentry,indic,izs,rzs,dzs,nitermax)
 c----
 c
 c     Code d optimisation proprement dit.
@@ -423,7 +423,7 @@ c
       logical inmemo
       character*3 normtype
       integer n,impres,io,imode(3),omode,niter,nsim,m,jmin,jmax,indic,
-     &    reverse,reentry,izs(*)
+     &    reverse,reentry,izs(*),nitermax
       real rzs(*)
       double precision x(n),f,g(n),dxmin,df1,epsg,d(n),gg(n),diag(n),
      &    aux(n),alpha(m),ybar(n,*),sbar(n,*),dzs(*)
@@ -474,7 +474,7 @@ c
 c
       skip_update = .false.
 c
-      itmax=niter
+      nitermax=niter
       niter=0
       isim=1
       eps1=1.d+0
@@ -831,7 +831,7 @@ c
           omode=1
           goto 1000
       endif
-      if (niter.eq.itmax) then
+      if (niter.eq.nitermax) then
           omode=4
           if (impres.ge.1) write (io,941) niter
   941     format (/" >>> m1qn3 (iteration ",i0,
@@ -892,7 +892,7 @@ c---- on poursuit les iterations
 c
       goto 100
 c
-c --- n1qn3 has finished for ever
+c --- m1qn3 has finished for ever
 c
  1000 continue
       if (reverse.ne.0) reverse = -1

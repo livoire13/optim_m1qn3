@@ -215,7 +215,7 @@ c     the reverse communication mode and should not be changed.
       call m1qn3_offline (simul_rc,euclid,ctonbe,ctcabe,
      &     nn,xx,objf,adxx,dxmin,df1,
      &     epsg,normtype,impres,io,imode,omode,niter,nsim,
-     &     iz,dz,ndz,reverse,indic,izs,rzs,dzs)
+     &     iz,dz,ndz,reverse,indic,izs,rzs,dzs,numiter)
       close(io)
       print *, ' OPTIM_SUB: ...........................'
       print *, ' OPTIM_SUB: returned from m1qn3_offline'
